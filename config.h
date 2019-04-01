@@ -19,7 +19,7 @@ static const uint8_t offsets[] = {0,0,0,0};
  *2)fixedcol         3)unkilcol
  *4)fixedunkilcol    5)outerbordercol
  *6)emptycol         */
-static const char *colors[] = {"#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#ffffff","#000000"};
+static const char *colors[] = {"#33393B","#33393B","#33393B","#33393B","#33393B","#33393B","#000000"};
 /* if this is set to true the inner border and outer borders colors will be swapped */
 static const bool inverted_colors = true;
 ///---Cursor---///
@@ -38,10 +38,10 @@ static const uint8_t borders[] = {10,5,5,5};
 static const char *ignore_names[] = {"bar", "xclock"};
 ///--Menus and Programs---///
 static const char *menucmd[]   = { "/usr/bin/gmrun", NULL };
-static const char *gmrun[]     = { "/usr/bin/gmrun",NULL};
-static const char *dmenu[]     = { "dmenu_run", NULL };
-static const char *panelku[]   = { "/home/dante/cobacoba/./menu.sh | /home/dante/cobacoba/./statusbartop.sh", NULL };
-static const char *terminal[]  = { "rxvt", NULL };
+static const char *terminal[]  = { "urxvt", NULL };
+static const char *rofirun[] = { "rofi", "-show", "run", NULL };
+static const char *rofidrun[] = { "rofi", "-show", "drun", NULL };
+static const char *rofiwrun[] = { "rofi", "-show", "window", NULL };
 static const char *click1[]    = { "xdotool","click", "1", NULL };
 static const char *click2[]    = { "xdotool","click", "2", NULL };
 static const char *click3[]    = { "xdotool","click", "3", NULL };
@@ -66,7 +66,7 @@ static void halfandcentered(const Arg *arg)
  * KeyRelease event, serial 40, synthetic NO, window 0x1e00001,
  *  root 0x98, subw 0x0, time 211120530, (128,73), root:(855,214),
  *  state 0x10, keycode 171 (keysym 0x1008ff17, XF86AudioNext), same_screen YES,
- *  XLookupString gives 0 bytes: 
+ *  XLookupString gives 0 bytes:
  *  XFilterEvent returns: False
  *
  *  The keycode here is keysym 0x1008ff17, so use  0x1008ff17
@@ -126,7 +126,7 @@ static key keys[] = {
     // Resize while keeping the window aspect
     {  MOD ,              XK_Home,       resizestep_aspect, {.i=TWOBWM_RESIZE_KEEP_ASPECT_GROW}},
     {  MOD ,              XK_End,        resizestep_aspect, {.i=TWOBWM_RESIZE_KEEP_ASPECT_SHRINK}},
-    // Full screen window without borders
+     // Maximize (ignore offset and no EWMH atom)
     {  MOD ,              XK_x,         maximize,          {.i=TWOBWM_FULLSCREEN}},
     //Full screen window without borders overiding offsets
     {  MOD |SHIFT ,       XK_x,          maximize,          {.i=TWOBWM_FULLSCREEN_OVERRIDE_OFFSETS}},
@@ -182,10 +182,10 @@ static key keys[] = {
     {  MOD |SHIFT,        XK_Left,       cursor_move,       {.i=TWOBWM_CURSOR_LEFT}},
     // Start programs
     {  MOD ,              XK_Return,     start,             {.com = terminal}},
-    {  MOD |ALT,              XK_r,     start,             {.com = dmenu}},
-    {  MOD |ALT,          XK_P,          start,             {.com = panelku}},
+    { MOD,                    XK_d,          start,               {.com = rofirun} },
+    { MOD,                    XK_s,          start,               {.com = rofidrun} },
+    { MOD,                    XK_e,          start,               {.com = rofiwrun} },
     {  MOD ,              XK_w,          start,             {.com = menucmd}},
-    {  MOD |SHIFT,        XK_w,          start,             {.com = gmrun}},
     // Exit or restart 2bwm
     {  MOD |CONTROL,      XK_q,          twobwm_exit,       {.i=0}},
     {  MOD |CONTROL,      XK_r,          twobwm_restart,    {.i=0}},
@@ -202,9 +202,16 @@ static key keys[] = {
 
 
     // Change current workspace
-       DESKTOPCHANGE(     XK_1,                             0)
-       DESKTOPCHANGE(     XK_2,                             1)
-       DESKTOPCHANGE(     XK_3,                             2)
+		DESKTOPCHANGE(     XK_1,                             0)
+		DESKTOPCHANGE(     XK_2,                             1)
+		DESKTOPCHANGE(     XK_3,                             2)
+		DESKTOPCHANGE(     XK_4,                             3)
+		DESKTOPCHANGE(     XK_5,                             4)
+		DESKTOPCHANGE(     XK_6,                             5)
+		DESKTOPCHANGE(     XK_7,                             6)
+		DESKTOPCHANGE(     XK_8,                             7)
+		DESKTOPCHANGE(     XK_9,                             8)
+		DESKTOPCHANGE(     XK_0,                             9)
 };
 static Button buttons[] = {
     {  MOD        ,XCB_BUTTON_INDEX_1,     mousemotion,   {.i=TWOBWM_MOVE}},
